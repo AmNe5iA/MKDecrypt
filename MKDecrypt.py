@@ -122,6 +122,7 @@ def main():
 	binMKDOS	= str.encode('mkdos')
 	binIBM		= str.encode('IBM  ')
 	binFREEDOS	= str.encode('FreeD')
+	binMKFS		= str.encode('mkfs.')
 	
 ##	define binary values for Ext and HFS+ tests and setup flags for use after test
 ##	set j=0 for all filesystems except HFS+ (changed later for HFS+)
@@ -164,7 +165,7 @@ def main():
 				isHFSP = True
 			elif HFSPSig == binHFSX and FIARes == bin000000:
 				isHFSP = True
-			if OEM == binMSDOS or OEM == binMSWIN or OEM == binEXFAT or OEM == binNTFS or OEM == binMKDOS or OEM == binIBM or OEM == binFREEDOS or isExt or isHFSP:
+			if OEM == binMSDOS or OEM == binMSWIN or OEM == binEXFAT or OEM == binNTFS or OEM == binMKDOS or OEM == binIBM or OEM == binFREEDOS or OEM == binMKFS or isExt or isHFSP:
 				print('Normal/outer volume found in ' + args.FILE + ' using' + crypt)
 				break
 ##			if it hasn't worked remove device mapping
@@ -227,7 +228,7 @@ def main():
 									subprocess.call(['losetup', '-d', loopdev])
 								print('Unable to find backup volume header.  Is volume corrupted?')
 								exit(1)
-					if srchOEM == binMSDOS or srchOEM == binMSWIN or srchOEM == binEXFAT or srchOEM == binNTFS or srchOEM == binMKDOS or srchOEM == binIBM or srchOEM == binFREEDOS or isExt or isHFSP:
+					if srchOEM == binMSDOS or srchOEM == binMSWIN or srchOEM == binEXFAT or srchOEM == binNTFS or srchOEM == binMKDOS or srchOEM == binIBM or srchOEM == binFREEDOS or srchOEM == binMKFS or isExt or isHFSP:
 						search.close()
 						print('Hidden volume found ' + str((i+256)*512) + ' bytes into ' + args.FILE + ' using' + crypt)
 						rmdmcmd = 'dmsetup remove ' + dmname
@@ -245,7 +246,7 @@ def main():
 								subprocess.call(['losetup', '-d', loopdev])
 							print('No volume decrypted in ' + args.FILE + '.  Is masterkey correct?')
 							exit(1)
-				if srchOEM == binMSDOS or srchOEM == binMSWIN or srchOEM == binEXFAT or srchOEM == binNTFS or srchOEM == binMKDOS or srchOEM == binIBM or srchOEM == binFREEDOS or isExt or isHFSP:
+				if srchOEM == binMSDOS or srchOEM == binMSWIN or srchOEM == binEXFAT or srchOEM == binNTFS or srchOEM == binMKDOS or srchOEM == binIBM or srchOEM == binFREEDOS or serchOEM == binMKFS or isExt or isHFSP:
 					break
 
 ##	if a 2 cascaded enryption type
@@ -292,7 +293,7 @@ def main():
 				isHFSP = True
 			elif HFSPSig == binHFSX and FIARes == bin000000:
 				isHFSP = True
-			if OEM == binMSDOS or OEM == binMSWIN or OEM == binEXFAT or OEM == binNTFS or OEM == binMKDOS or OEM == binIBM or OEM == binFREEDOS or isExt or isHFSP:
+			if OEM == binMSDOS or OEM == binMSWIN or OEM == binEXFAT or OEM == binNTFS or OEM == binMKDOS or OEM == binIBM or OEM == binFREEDOS or OEM == binMKFS or isExt or isHFSP:
 				print('Normal/outer volume found in '+ args.FILE + ' using' + EN1 + 'then' + EN2)
 				break
 ##			if it hasn't worked remove device mapping
@@ -369,7 +370,7 @@ def main():
 									subprocess.call(['losetup', '-d', loopdev])
 								print('Unable to find backup volume header.  Is volume corrupted?')
 								exit(1)
-					if srchOEM == binMSDOS or srchOEM == binMSWIN or srchOEM == binEXFAT or srchOEM == binNTFS or srchOEM == binMKDOS or srchOEM == binIBM or srchOEM == binFREEDOS or isExt or isHFSP:
+					if srchOEM == binMSDOS or srchOEM == binMSWIN or srchOEM == binEXFAT or srchOEM == binNTFS or srchOEM == binMKDOS or srchOEM == binIBM or srchOEM == binFREEDOS or srchOEM == binMKFS or isExt or isHFSP:
 						search.close()
 						print('Hidden volume found ' + str((i+256)*512) + ' bytes into ' + args.FILE + ' using' + EN1 + 'then' + EN2 )
 						rmdmcmd1 = 'dmsetup remove ' + dmname
@@ -394,7 +395,7 @@ def main():
 								subprocess.call(['losetup', '-d', loopdev])
 							print('No volume decrypted in ' + args.FILE + '.  Is masterkey correct?')
 							exit(1)
-				if srchOEM == binMSDOS or srchOEM == binMSWIN or srchOEM == binEXFAT or srchOEM == binNTFS or srchOEM == binMKDOS or srchOEM == binIBM or srchOEM == binFREEDOS or isExt or isHFSP:
+				if srchOEM == binMSDOS or srchOEM == binMSWIN or srchOEM == binEXFAT or srchOEM == binNTFS or srchOEM == binMKDOS or srchOEM == binIBM or srchOEM == binFREEDOS or srchOEM == binMKFS or isExt or isHFSP:
 					break
 
 ##	if a 3 cascaded enryption type
@@ -444,7 +445,7 @@ def main():
 				isHFSP = True
 			elif HFSPSig == binHFSX and FIARes == bin000000:
 				isHFSP = True
-			if OEM == binMSDOS or OEM == binMSWIN or OEM == binEXFAT or OEM == binNTFS or OEM == binMKDOS or OEM == binIBM or OEM == binFREEDOS or isExt or isHFSP:
+			if OEM == binMSDOS or OEM == binMSWIN or OEM == binEXFAT or OEM == binNTFS or OEM == binMKDOS or OEM == binIBM or OEM == binFREEDOS or OEM == binMKFS or isExt or isHFSP:
 				print('Normal/outer volume found in ' + args.FILE + ' using' + EN1 + 'then' + EN2 + 'then' + EN3)
 				break
 ##			if it hasn't worked remove device mapping
@@ -527,7 +528,7 @@ def main():
 									subprocess.call(['losetup', '-d', loopdev])
 								print('Unable to find backup volume header.  Is volume corrupted?')
 								exit(1)
-					if srchOEM == binMSDOS or srchOEM == binMSWIN or srchOEM == binEXFAT or srchOEM == binNTFS or srchOEM == binMKDOS or srchOEM == binIBM or srchOEM == binFREEDOS or isExt or isHFSP:
+					if srchOEM == binMSDOS or srchOEM == binMSWIN or srchOEM == binEXFAT or srchOEM == binNTFS or srchOEM == binMKDOS or srchOEM == binIBM or srchOEM == binFREEDOS or srchOEM == binMKFS or isExt or isHFSP:
 						search.close()
 						print('Hidden volume found ' + str((i+256)*512) + ' bytes into ' + args.FILE + ' using' + EN1 + 'then' + EN2 + 'then' + EN3)
 						rmdmcmd1 = 'dmsetup remove ' + dmname
@@ -559,7 +560,7 @@ def main():
 								subprocess.call(['losetup', '-d', loopdev])
 							print('No volume decrypted in ' + args.FILE + '.  Is masterkey correct?')
 							exit(1)
-				if srchOEM == binMSDOS or srchOEM == binMSWIN or srchOEM == binEXFAT or srchOEM == binNTFS or srchOEM == binMKDOS or srchOEM == binIBM or srchOEM == binFREEDOS or isExt or isHFSP:
+				if srchOEM == binMSDOS or srchOEM == binMSWIN or srchOEM == binEXFAT or srchOEM == binNTFS or srchOEM == binMKDOS or srchOEM == binIBM or srchOEM == binFREEDOS or srchOEM == binMKFS or isExt or isHFSP:
 					break
 		
 	
