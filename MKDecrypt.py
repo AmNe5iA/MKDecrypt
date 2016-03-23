@@ -246,7 +246,7 @@ def main():
 								subprocess.call(['losetup', '-d', loopdev])
 							print('No volume decrypted in ' + args.FILE + '.  Is masterkey correct?')
 							exit(1)
-				if srchOEM == binMSDOS or srchOEM == binMSWIN or srchOEM == binEXFAT or srchOEM == binNTFS or srchOEM == binMKDOS or srchOEM == binIBM or srchOEM == binFREEDOS or serchOEM == binMKFS or isExt or isHFSP:
+				if srchOEM == binMSDOS or srchOEM == binMSWIN or srchOEM == binEXFAT or srchOEM == binNTFS or srchOEM == binMKDOS or srchOEM == binIBM or srchOEM == binFREEDOS or srchOEM == binMKFS or isExt or isHFSP:
 					break
 
 ##	if a 2 cascaded enryption type
