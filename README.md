@@ -25,7 +25,9 @@ Examples: [sudo] ./MKDecrypt.py -m /mnt truecrypt.tc 123...def
 
 
 Limitations: May produce false negatives if the filesystem used is not
-one of the standard truecrypt/veracrypt formats.  The HFS+
+one of the standard truecrypt/veracrypt formats.  It is designed to
+work with standard truecrypt containers and not bootable pre-
+authentication bootloader partitions/disks.  The HFS+
 implementation is _sketchy_ but appears to work, for now.
 
 Requirements:  Linux OS with Python3.x and LVM2 (dmsetup).  It is
