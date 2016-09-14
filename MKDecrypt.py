@@ -132,7 +132,7 @@ def main():
 	binHFSX		= str.encode('HX')
 	isExt		= False
 	isHFSP		= False
-	j			= 0
+	j		= 0
 	
 ##	if not cascaded encryption
 	if len(args.MASTERKEY) == 128:
@@ -146,8 +146,7 @@ def main():
 			dmsetupcmd = 'dmsetup create ' + dmname + ' ' + ro + ' --table ' + table
 			subprocess.call(dmsetupcmd, shell=True)
 ##			test that the volume has decrypted correctly by reading (part of) the OEM from VBR
-			decfile = '/dev/mapper/' + dmname
-			test = open(decfile, 'rb')
+			test = open(dmslot, 'rb')
 			test.seek(3)
 			OEM = test.read(5)
 			test.seek(1024)
@@ -184,8 +183,7 @@ def main():
 				dmsetupcmd = 'dmsetup create ' + dmname + ' ' + ro + ' --table ' + table
 				subprocess.call(dmsetupcmd, shell=True)
 ##				search for OEM which indicates where hidden volume VBR is located within the container
-				decfile = '/dev/mapper/'+ dmname
-				search = open(decfile, 'rb')
+				search = open(dmslot, 'rb')
 				for i in range(evsize):
 ##					provide the user with an update every 100,000 sectors
 					if (i % 100000) == 0 :
@@ -268,14 +266,13 @@ def main():
 				EN1 = ' twofish-xts-plain64 '
 				EN2 = ' serpent-xts-plain64 '
 			table1 = '"0 ' + str(evsize) + ' crypt' + EN1 + MK1 + ' 256 ' + loopdev + ' 256"'
-			table2 = '"0 ' + str(evsize) + ' crypt' + EN2 + MK2 + ' 256 /dev/mapper/' + dmname + '_1 0"'
+			table2 = '"0 ' + str(evsize) + ' crypt' + EN2 + MK2 + ' 256 ' + dmslot + '_1 0"'
 			dmsetupcmd1 = 'dmsetup create ' + dmname + '_1 ' + ro + ' --table ' + table1
 			dmsetupcmd2 = 'dmsetup create ' + dmname + ' ' + ro + ' --table ' + table2
 			subprocess.call(dmsetupcmd1, shell=True)
 			subprocess.call(dmsetupcmd2, shell=True)
 ##			test that the volume has decrypted correctly by reading (part of) the OEM from VBR
-			decfile = '/dev/mapper/' + dmname
-			test = open(decfile, 'rb')
+			test = open(dmslot, 'rb')
 			test.seek(3)
 			OEM = test.read(5)
 			test.seek(1024)
@@ -318,14 +315,13 @@ def main():
 					EN1 = ' twofish-xts-plain64 '
 					EN2 = ' serpent-xts-plain64 '
 				table1 = '"0 ' + str(evsize) + ' crypt' + EN1 + MK1 + ' 256 ' + loopdev + ' 256"'
-				table2 = '"0 ' + str(evsize) + ' crypt' + EN2 + MK2 + ' 256 /dev/mapper/' + dmname + '_1 0"'
+				table2 = '"0 ' + str(evsize) + ' crypt' + EN2 + MK2 + ' 256 ' + dmslot + '_1 0"'
 				dmsetupcmd1 = 'dmsetup create ' + dmname + '_1 ' + ro + ' --table ' + table1
 				dmsetupcmd2 = 'dmsetup create ' + dmname + ' ' + ro + ' --table ' + table2
 				subprocess.call(dmsetupcmd1, shell=True)
 				subprocess.call(dmsetupcmd2, shell=True)
 ##				search for OEM which indicates where hidden volume VBR is located within the container
-				decfile = '/dev/mapper/' + dmname
-				search = open(decfile, 'rb')
+				search = open(dmslot, 'rb')
 				for i in range(evsize):
 ##					provide the user with an update every 100,000 sectors
 					if (i % 100000) == 0 :
@@ -378,7 +374,7 @@ def main():
 						subprocess.call(rmdmcmd1, shell=True)
 						subprocess.call(rmdmcmd2, shell=True)
 						table1 = '"0 ' + str(evsize-(i+j)) + ' crypt' + EN1 + MK1 + ' ' + str(i+256) + ' ' + loopdev + ' ' + str(i+256) + '"'
-						table2 = '"0 ' + str(evsize-(i+j)) + ' crypt' + EN2 + MK2 + ' ' + str(i+256) + ' /dev/mapper/' + dmname + '_1 0"'
+						table2 = '"0 ' + str(evsize-(i+j)) + ' crypt' + EN2 + MK2 + ' ' + str(i+256) + ' ' + dmslot + '_1 0"'
 						dmsetupcmd1 = 'dmsetup create ' + dmname + '_1 ' + ro + ' --table ' + table1
 						dmsetupcmd2 = 'dmsetup create ' + dmname + ' ' + ro + ' --table ' + table2
 						subprocess.call(dmsetupcmd1, shell=True)
@@ -417,8 +413,8 @@ def main():
 				EN2 = ' twofish-xts-plain64 '
 				EN3 = ' aes-xts-plain64 '
 			table1 = '"0 ' + str(evsize) + ' crypt' + EN1 + MK1 + ' 256 ' + loopdev + ' 256"'
-			table2 = '"0 ' + str(evsize) + ' crypt' + EN2 + MK2 + ' 256 /dev/mapper/' + dmname + '_2 0"'
-			table3 = '"0 ' + str(evsize) + ' crypt' + EN3 + MK3 + ' 256 /dev/mapper/' + dmname + '_1 0"'
+			table2 = '"0 ' + str(evsize) + ' crypt' + EN2 + MK2 + ' 256 ' + dmslot + '_2 0"'
+			table3 = '"0 ' + str(evsize) + ' crypt' + EN3 + MK3 + ' 256 ' + dmslot + '_1 0"'
 			dmsetupcmd1 = 'dmsetup create ' + dmname + '_2 ' + ro + ' --table ' + table1
 			dmsetupcmd2 = 'dmsetup create ' + dmname + '_1 ' + ro + ' --table ' + table2
 			dmsetupcmd3 = 'dmsetup create ' + dmname + ' ' + ro + ' --table ' + table3
@@ -426,8 +422,7 @@ def main():
 			subprocess.call(dmsetupcmd2, shell=True)
 			subprocess.call(dmsetupcmd3, shell=True)
 ##			test that the volume has decrypted correctly by reading (part of) the OEM from VBR
-			decfile = '/dev/mapper/' + dmname
-			test = open(decfile, 'rb')
+			test = open(dmslot, 'rb')
 			test.seek(3)
 			OEM = test.read(5)
 			test.seek(1024)
@@ -471,8 +466,8 @@ def main():
 					EN2 = ' twofish-xts-plain64 '
 					EN3 = ' aes-xts-plain64 '
 				table1 = '"0 ' + str(evsize) + ' crypt' + EN1 + MK1 + ' 256 ' + loopdev + ' 256"'
-				table2 = '"0 ' + str(evsize) + ' crypt' + EN2 + MK2 + ' 256 /dev/mapper/' + dmname + '_2 0"'
-				table3 = '"0 ' + str(evsize) + ' crypt' + EN3 + MK3 + ' 256 /dev/mapper/' + dmname + '_1 0"'
+				table2 = '"0 ' + str(evsize) + ' crypt' + EN2 + MK2 + ' 256 ' + dmslot + '_2 0"'
+				table3 = '"0 ' + str(evsize) + ' crypt' + EN3 + MK3 + ' 256 ' + dmslot + '_1 0"'
 				dmsetupcmd1 = 'dmsetup create ' + dmname + '_2 ' + ro + ' --table ' + table1
 				dmsetupcmd2 = 'dmsetup create ' + dmname + '_1 ' + ro + ' --table ' + table2
 				dmsetupcmd3 = 'dmsetup create ' + dmname + ' ' + ro + ' --table ' + table3
@@ -480,8 +475,7 @@ def main():
 				subprocess.call(dmsetupcmd2, shell=True)
 				subprocess.call(dmsetupcmd3, shell=True)	
 ##				search truecrypthidden for OEM which indicates where hidden volume VBR is
-				decfile = '/dev/mapper/' + dmname
-				search = open(decfile, 'rb')
+				search = open(dmslot, 'rb')
 				for i in range(evsize):
 ##					provide the user with an update every 100,000 sectors
 					if (i % 100000) == 0 :
@@ -538,8 +532,8 @@ def main():
 						subprocess.call(rmdmcmd2, shell=True)
 						subprocess.call(rmdmcmd3, shell=True)
 						table1 = '"0 ' + str(evsize-(i+j)) + ' crypt' + EN1 + MK1 + ' ' + str(i+256) + ' ' + loopdev + ' ' + str(i+256) + '"'
-						table2 = '"0 ' + str(evsize-(i+j)) + ' crypt' + EN2 + MK2 + ' ' + str(i+256) + ' /dev/mapper/' + dmname + '_2 0"'
-						table3 = '"0 ' + str(evsize-(i+j)) + ' crypt' + EN3 + MK3 + ' ' + str(i+256) + ' /dev/mapper/' + dmname + '_1 0"'
+						table2 = '"0 ' + str(evsize-(i+j)) + ' crypt' + EN2 + MK2 + ' ' + str(i+256) + ' ' + dmslot + '_2 0"'
+						table3 = '"0 ' + str(evsize-(i+j)) + ' crypt' + EN3 + MK3 + ' ' + str(i+256) + ' ' + dmslot + '_1 0"'
 						dmsetupcmd1 = 'dmsetup create ' + dmname + '_2 ' + ro + ' --table ' + table1
 						dmsetupcmd2 = 'dmsetup create ' + dmname + '_1 ' + ro + ' --table ' + table2
 						dmsetupcmd3 = 'dmsetup create ' + dmname + ' ' + ro + ' --table ' + table3
@@ -566,11 +560,11 @@ def main():
 	
 ##	if requested, mount the decrypted volume
 	if mp:
-		mountcmd = 'mount ' + ro + ' /dev/mapper/' + dmname + ' ' + args.mountpoint
+		mountcmd = 'mount ' + ro + ' ' + dmslot + ' ' + args.mountpoint
 		subprocess.call(mountcmd, shell=True)
-		print(args.FILE + ' has been decrypted at /dev/mapper/' + dmname + ' and mounted at ' + args.mountpoint)
+		print(args.FILE + ' has been decrypted at ' + dmslot + ' and mounted at ' + args.mountpoint)
 	else:
-		print(args.FILE + ' is decrypted at /dev/mapper/' + dmname)
+		print(args.FILE + ' is decrypted at ' + dmslot)
 
 
 ##	pause until user presses enter while also checking that
@@ -580,7 +574,7 @@ def main():
 		while mount:
 			input('Once done, press Enter to dismount ' + args.FILE + '...')
 			if mp:
-				umountcmd = 'umount /dev/mapper/' + dmname
+				umountcmd = 'umount ' + dmslot
 				check = subprocess.call(umountcmd, shell=True, stderr=subprocess.DEVNULL)
 				if not check == 0:
 					print(args.mountpoint + " is still in use!")
@@ -591,18 +585,18 @@ def main():
 				rmdmcmd = 'dmsetup remove ' + dmname
 				check = subprocess.call(rmdmcmd, shell=True, stderr=subprocess.DEVNULL)	
 				if not check == 0:
-					print("Device mapping: /dev/mapper/" + dmname + " is still in use!")
+					print("Device mapping: " + dmslot + " is still in use!")
 					break
 				else:
 					if args.verbose:
-						print("Removed device mapping: /dev/mapper/" + dmname)
+						print("Removed device mapping: " + dmslot)
 					if len(args.MASTERKEY) == 128:
 						mount=False
 			if len(args.MASTERKEY) >= 256:
 				rmdmcmd = 'dmsetup remove ' + dmname + '_1'
 				subprocess.call(rmdmcmd, shell=True, stderr=subprocess.DEVNULL)
 				if not check == 0:
-					print("Device mapping: /dev/mapper/" + dmname + "_1 is still in use!")
+					print("Device mapping: " + dmslot + "_1 is still in use!")
 					break
 				elif len(args.MASTERKEY) == 256:
 					mount=False
@@ -610,7 +604,7 @@ def main():
 				rmdmcmd = 'dmsetup remove ' + dmname + '_2'
 				subprocess.call(rmdmcmd, shell=True, stderr=subprocess.DEVNULL)
 				if not check == 0:
-					print("Device mapping: /dev/mapper/" + dmname + "_2 is still in use!")
+					print("Device mapping: " + dmslot + "_2 is still in use!")
 					break
 				else:
 					mount=False
