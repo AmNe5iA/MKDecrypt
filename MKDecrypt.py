@@ -136,7 +136,7 @@ def main():
 	
 ##	if not cascaded encryption
 	if len(args.MASTERKEY) == 128:
-		crypts = [' aes-xts-plain64 ', ' serpent-xts-plain64 ', ' twofish-xts-plain64 ']
+		crypts = [' aes-xts-plain64 ', ' serpent-xts-plain64 ', ' twofish-xts-plain64 ', ' camellia-xts-plain64 ']
 ##		first check if normal/outer volume 
 		tryhiddenvol = False
 		for crypt in crypts:
@@ -171,7 +171,7 @@ def main():
 			else:
 				rmdecfile = 'dmsetup remove ' + dmname
 				subprocess.call(rmdecfile, shell=True)
-				if crypt == ' twofish-xts-plain64 ':
+				if crypt == ' camellia-xts-plain64 ':
 ##					if all encryption types have been tried then try hidden volumes
 					tryhiddenvol = True
 		if tryhiddenvol:
@@ -239,7 +239,7 @@ def main():
 						search.close()
 						rmdmcmd = 'dmsetup remove ' + dmname
 						subprocess.call(rmdmcmd, shell=True)
-						if crypt == ' twofish-xts-plain64 ':
+						if crypt == ' camellia-xts-plain64 ':
 							if not isBLKDEV:
 								subprocess.call(['losetup', '-d', loopdev])
 							print('No volume decrypted in ' + args.FILE + '.  Is masterkey correct?')
