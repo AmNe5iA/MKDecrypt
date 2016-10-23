@@ -29,9 +29,9 @@ one of the standard truecrypt/veracrypt formats.  It is designed to
 work with standard truecrypt containers and not bootable
 pre-authentication bootloader partitions/disks.  The HFS+
 implementation is _sketchy_ but appears to work, for now.
-2016-09-16 - Veracrypt now supports 3 new encryption algorithms:
-Camellia, Magma (GOST89) and Kuznyechik.  These are only implemented in
-non-cascaded modes.  Only Camellia is currently supported by MKDecrypt.
+2016-10-23 - Veracrypt now supports 2 new encryption algorithms:
+Camellia and Kuznyechik.  These are only implemented in
+non-cascaded modes.  Kuznyechik is currently not supported by MKDecrypt.
 
 Requirements:  Linux OS with Python3.x and LVM2 (dmsetup).  It is
 preferable to make the script executable before use.
