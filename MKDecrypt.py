@@ -103,7 +103,8 @@ def main():
 		loopdev = args.FILE
 ##	otherwise mount container as loop device
 	else:
-		losetupoutput = subprocess.check_output(['losetup', '-f', '--show', args.FILE],universal_newlines=True)
+		losetupcmd = 'losetup ' + ro + ' -f --show ' + args.FILE
+		losetupoutput = subprocess.check_output(losetupcmd, shell=True, universal_newlines=True)
 		loopdev = losetupoutput[:-1]
 		if args.verbose:
 			print (loopdev + ' has been setup as loop device of ' + args.FILE)
@@ -595,19 +596,12 @@ def main():
 			if len(args.MASTERKEY) >= 256:
 				rmdmcmd = 'dmsetup remove ' + dmname + '_1'
 				subprocess.call(rmdmcmd, shell=True, stderr=subprocess.DEVNULL)
-				if not check == 0:
-					print("Device mapping: " + dmslot + "_1 is still in use!")
-					break
-				elif len(args.MASTERKEY) == 256:
+				if len(args.MASTERKEY) == 256:
 					mount=False
 			if len(args.MASTERKEY) == 384:
 				rmdmcmd = 'dmsetup remove ' + dmname + '_2'
 				subprocess.call(rmdmcmd, shell=True, stderr=subprocess.DEVNULL)
-				if not check == 0:
-					print("Device mapping: " + dmslot + "_2 is still in use!")
-					break
-				else:
-					mount=False
+				mount=False
 	
 	if not isBLKDEV:
 		subprocess.call(['losetup', '-d', loopdev])
