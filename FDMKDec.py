@@ -118,8 +118,11 @@ def main():
 ##	we already have the masterkey)
 	evsize = int(subprocess.check_output(['blockdev', '--getsz', loopdev])) - 63
 
-##	Find the starting sector for the first partition
-	partxout = subprocess.check_output(['partx', '-g', '--nr', '1', '-o', 'START', loopdev],universal_newlines=True)
+##	Find the starting sector for the first partition.
+##	Send errors to NULL because if the disk has logical partitions
+##	these additional partition tables will still be encrypted and
+##	so partx will not correctly read them until decrypted.
+	partxout = subprocess.check_output(['partx', '-g', '--nr', '1', '-o', 'START', loopdev], universal_newlines=True, stderr=subprocess.DEVNULL)
 	firstpart = int(partxout[:-1])
 
 ##	Define binary values for OEMs (VBR) for later test
