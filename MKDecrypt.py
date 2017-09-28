@@ -11,7 +11,6 @@
 # the standard truecrypt/veracrypt formats.  The HFS+ implementation is
 # _sketchy_ but appears to work, for now.
 
-import sys
 import os
 import stat
 import argparse
