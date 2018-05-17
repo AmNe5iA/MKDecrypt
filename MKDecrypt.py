@@ -252,7 +252,7 @@ def main():
 ##		split masterkey into 2
 		MK1 = args.MASTERKEY[128:]
 		MK2 = args.MASTERKEY[:128]
-		crypts = ['aes-twofish', 'serpent-aes', 'twofish-serpent']
+		crypts = ['aes-twofish', 'serpent-aes', 'twofish-serpent', 'camellia-serpent']
 		tryhiddenvol = False
 ##		first check for normal/outer volume
 		for crypt in crypts:
@@ -264,6 +264,9 @@ def main():
 				EN2 = ' aes-xts-plain64 '
 			elif crypt == 'twofish-serpent':
 				EN1 = ' twofish-xts-plain64 '
+				EN2 = ' serpent-xts-plain64 '
+			elif crypt == 'camellia-serpent':
+				EN1 = ' camellia-xts-plain64 '
 				EN2 = ' serpent-xts-plain64 '
 			table1 = '"0 ' + str(evsize) + ' crypt' + EN1 + MK1 + ' 256 ' + loopdev + ' 256"'
 			table2 = '"0 ' + str(evsize) + ' crypt' + EN2 + MK2 + ' 256 ' + dmslot + '_1 0"'
@@ -300,7 +303,7 @@ def main():
 				subprocess.call(rmdecfile1, shell=True)
 				subprocess.call(rmdecfile2, shell=True)
 ##				if not normal volume check entire container for a hidden volume
-				if crypt == 'twofish-serpent':
+				if crypt == 'camellia-serpent':
 					tryhiddenvol = True
 		if tryhiddenvol:
 			print ('Masterkey does not decrypt a normal/outer volume.  Trying for a hidden volume...')
@@ -313,6 +316,9 @@ def main():
 					EN2 = ' aes-xts-plain64 '
 				elif crypt == 'twofish-serpent':
 					EN1 = ' twofish-xts-plain64 '
+					EN2 = ' serpent-xts-plain64 '
+				elif crypt == 'camellia-serpent':
+					EN1 = ' camellia-xts-plain64 '
 					EN2 = ' serpent-xts-plain64 '
 				table1 = '"0 ' + str(evsize) + ' crypt' + EN1 + MK1 + ' 256 ' + loopdev + ' 256"'
 				table2 = '"0 ' + str(evsize) + ' crypt' + EN2 + MK2 + ' 256 ' + dmslot + '_1 0"'
@@ -386,7 +392,7 @@ def main():
 						rmdmcmd2 = 'dmsetup remove ' + dmname + '_1'
 						subprocess.call(rmdmcmd1, shell=True)
 						subprocess.call(rmdmcmd2, shell=True)
-						if crypt == 'twofish-serpent':
+						if crypt == 'camellia-serpent':
 							if not isBLKDEV:
 								subprocess.call(['losetup', '-d', loopdev])
 							print('No volume decrypted in ' + args.FILE + '.  Is masterkey correct?')
