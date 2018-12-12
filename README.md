@@ -15,6 +15,7 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   -v, --verbose         verbose output
+  -X  --volatility      specifies that you are using a volatility file instead of hex chars
   -r, --read-only       opens FILE in read only mode (default)
   -w, --read-write      opens FILE in read/write mode
   -m MOUNTPOINT, --mountpoint MOUNTPOINT
