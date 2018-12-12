@@ -1,7 +1,7 @@
 # MKDecrypt(.py)
 
 
-usage: MKDecrypt.py [-h] [-v] [-r | -w] [-m MOUNTPOINT] FILE MASTERKEY
+usage: MKDecrypt.py [-h] [-v] [-X] [-r | -w] [-m MOUNTPOINT] FILE MASTERKEY
 
 MKDecrypt.py (Master Key Decryptor) is a python script to assist with
 decrypting encrypted volumes using the recovered masterkey for various
@@ -10,12 +10,12 @@ sudo recommended.
 
 positional arguments:
   FILE                  the encrypted container, FILE
-  MASTERKEY             the MASTERKEY as a hexadecimal string
+  MASTERKEY             the MASTERKEY as a hexadecimal string or file (-X)
 
 optional arguments:
   -h, --help            show this help message and exit
   -v, --verbose         verbose output
-  -X  --volatility      specifies that you are using a volatility file instead of hex chars
+  -X, --volatility      specifies MASTERKEY is a volatility file instead of hex chars
   -r, --read-only       opens FILE in read only mode (default)
   -w, --read-write      opens FILE in read/write mode
   -m MOUNTPOINT, --mountpoint MOUNTPOINT
