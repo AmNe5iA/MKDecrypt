@@ -31,7 +31,7 @@ def main():
 	parser.add_argument('-v', '--verbose', action='store_true', help='''
 		verbose output''')
 	parser.add_argument('-X', '--volatility', action='store_true',
-		help='add this switch for passing in volatility dump')
+		help='specifies MASTERKEY is a volatility file instead of hex chars')
 	rwgroup = parser.add_mutually_exclusive_group()
 	rwgroup.add_argument('-r', '--read-only', action='store_true',
 		help='opens FILE in read only mode (default)')
