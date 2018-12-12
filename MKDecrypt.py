@@ -47,8 +47,14 @@ def main():
 
 ##  check to see if you are using a raw volatility dump
 	if(args.volatility):
-		masterkeyfile = open(args.MASTERKEY,"rb").read()
-		args.MASTERKEY = binascii.hexlify(masterkeyfile).decode('utf-8')
+		isMKFile =  os.access(args.MASTERKEY, os.F_OK)
+		if isMKFile:
+			masterkeyfile = open(args.MASTERKEY,"rb").read()
+			args.MASTERKEY = binascii.hexlify(masterkeyfile).decode('utf-8')
+		else:
+			print (args.MASTERKEY + ' is not a file.' )
+			exit(1)
+
 
 ##	check to see if this script is being run as root/superuser. exit if not
 	if not os.geteuid() == 0:
