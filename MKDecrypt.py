@@ -30,6 +30,8 @@ def main():
 		truecrypt.tc 123...def''')
 	parser.add_argument('-v', '--verbose', action='store_true', help='''
 		verbose output''')
+	parser.add_argument('-X', '--volatility', action='store_true',
+		help='add this switch for passing in volatility dump')
 	rwgroup = parser.add_mutually_exclusive_group()
 	rwgroup.add_argument('-r', '--read-only', action='store_true',
 		help='opens FILE in read only mode (default)')
@@ -42,6 +44,12 @@ def main():
 		hexadecimal string''')
 	args = parser.parse_args()
 	
+
+##  check to see if you are using a raw volatility dump
+	if(args.volatility):
+		masterkeyfile = open(args.MASTERKEY,"rb").read()
+		args.MASTERKEY = binascii.hexlify(masterkeyfile).decode('utf-8')
+
 ##	check to see if this script is being run as root/superuser. exit if not
 	if not os.geteuid() == 0:
 		print("This script needs to be run as root/superuser.")
