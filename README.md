@@ -41,3 +41,5 @@ Kuznyechik.  Kuznyechik is currently not supported by MKDecrypt.
 
 Requirements:  Linux OS with Python3.x and LVM2 (dmsetup).  It is
 preferable to make the script executable before use.
+
+Send BitCoins to: 1AmNe5iAYfYCGYFq7vpLWL4XRFxe21hh9D
