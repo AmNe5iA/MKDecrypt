@@ -28,6 +28,27 @@ Examples:
 [sudo] ./MKDecrypt.py -m /mnt truecrypt.tc 123...def
 [sudo] ./MKDecrypt.py -v /dev/sdb 123...def
 ```
+Important:
+
+Veracrypt now supports 2 new encryption algorithms: Camellia and
+Kuznyechik. It has also added 5 new cascades: Camellia-Kuznyechik,
+Camellia-Serpent, Kuznyechik-AES, Kuznyechik-Serpent-Camellia and
+Kuznyechik-Twofish
+
+Kuznyechik encryption requires a linux kernel module found here: 
+https://github.com/kuzcrypt/kuznyechik-kernel
+
+Installation instructions:
+```
+sudo apt update
+sudo apt install git build-essential dkms
+git clone https://github.com/kuzcrypt/kuznyechik-kernel.git
+cd kuznyechik-kernel
+sudo make install
+```
+
+Other requirements:  Linux OS with Python3.x and LVM2 (dmsetup).
+It is preferable to make the script executable before use.
 
 Limitations:
 
@@ -36,10 +57,5 @@ one of the standard truecrypt/veracrypt formats.  It is designed to
 work with standard truecrypt containers and not bootable
 pre-authentication bootloader partitions/disks.  The HFS+
 implementation is _sketchy_ but appears to work, for now.
-Veracrypt now supports 2 new encryption algorithms: Camellia and
-Kuznyechik.  Kuznyechik is currently not supported by MKDecrypt.
-
-Requirements:  Linux OS with Python3.x and LVM2 (dmsetup).  It is
-preferable to make the script executable before use.
 
 Send BitCoins to: 1AmNe5iAYfYCGYFq7vpLWL4XRFxe21hh9D

@@ -150,7 +150,7 @@ def main():
 	
 ##	if not cascaded encryption
 	if len(args.MASTERKEY) == 128:
-		crypts = [' aes-xts-plain64 ', ' serpent-xts-plain64 ', ' twofish-xts-plain64 ', ' camellia-xts-plain64 ']
+		crypts = [' aes-xts-plain64 ', ' serpent-xts-plain64 ', ' twofish-xts-plain64 ', ' camellia-xts-plain64 ', ' kuznyechik-xts-plain64 ']
 ##		first check if normal/outer volume 
 		tryhiddenvol = False
 		for crypt in crypts:
@@ -185,7 +185,7 @@ def main():
 			else:
 				rmdecfile = 'dmsetup remove ' + dmname
 				subprocess.call(rmdecfile, shell=True)
-				if crypt == ' camellia-xts-plain64 ':
+				if crypt == ' kuznyechik-xts-plain64 ':
 ##					if all encryption types have been tried then try hidden volumes
 					tryhiddenvol = True
 		if tryhiddenvol:
@@ -253,7 +253,7 @@ def main():
 						search.close()
 						rmdmcmd = 'dmsetup remove ' + dmname
 						subprocess.call(rmdmcmd, shell=True)
-						if crypt == ' camellia-xts-plain64 ':
+						if crypt == ' kuznyechik-xts-plain64 ':
 							if not isBLKDEV:
 								subprocess.call(['losetup', '-d', loopdev])
 							print('No volume decrypted in ' + args.FILE + '.  Is masterkey correct?')
@@ -266,21 +266,30 @@ def main():
 ##		split masterkey into 2
 		MK1 = args.MASTERKEY[128:]
 		MK2 = args.MASTERKEY[:128]
-		crypts = ['aes-twofish', 'serpent-aes', 'twofish-serpent', 'camellia-serpent']
+		crypts = ['aes-twofish', 'camellia-kuznyechik', 'camellia-serpent', 'kuznyechik-aes', 'kuznyechik-twofish', 'serpent-aes', 'twofish-serpent']
 		tryhiddenvol = False
 ##		first check for normal/outer volume
 		for crypt in crypts:
 			if crypt == 'aes-twofish':
 				EN1 = ' aes-xts-plain64 '
 				EN2 = ' twofish-xts-plain64 '
+			elif crypt == 'camellia-kuznyechik':
+				EN1 = ' camellia-xts-plain64 '
+				EN2 = ' kuznyechik-xts-plain64 '
+			elif crypt == 'camellia-serpent':
+				EN1 = ' camellia-xts-plain64 '
+				EN2 = ' serpent-xts-plain64 '
+			elif crypt == 'kuznyechik-aes':
+				EN1 = ' kuznyechik-xts-plain64 '
+				EN2 = ' aes-xts-plain64 '
+			elif crypt == 'kuznyechik-twofish':
+				EN1 = ' kuznyechik-xts-plain64 '
+				EN2 = ' twofish-xts-plain64 '
 			elif crypt == 'serpent-aes':
 				EN1 = ' serpent-xts-plain64 '
 				EN2 = ' aes-xts-plain64 '
 			elif crypt == 'twofish-serpent':
 				EN1 = ' twofish-xts-plain64 '
-				EN2 = ' serpent-xts-plain64 '
-			elif crypt == 'camellia-serpent':
-				EN1 = ' camellia-xts-plain64 '
 				EN2 = ' serpent-xts-plain64 '
 			table1 = '"0 ' + str(evsize) + ' crypt' + EN1 + MK1 + ' 256 ' + loopdev + ' 256"'
 			table2 = '"0 ' + str(evsize) + ' crypt' + EN2 + MK2 + ' 256 ' + dmslot + '_1 0"'
@@ -317,7 +326,7 @@ def main():
 				subprocess.call(rmdecfile1, shell=True)
 				subprocess.call(rmdecfile2, shell=True)
 ##				if not normal volume check entire container for a hidden volume
-				if crypt == 'camellia-serpent':
+				if crypt == 'twofish-serpent':
 					tryhiddenvol = True
 		if tryhiddenvol:
 			print ('Masterkey does not decrypt a normal/outer volume.  Trying for a hidden volume...')
@@ -325,14 +334,23 @@ def main():
 				if crypt == 'aes-twofish':
 					EN1 = ' aes-xts-plain64 '
 					EN2 = ' twofish-xts-plain64 '
+				elif crypt == 'camellia-kuznyechik':
+					EN1 = ' camellia-xts-plain64 '
+					EN2 = ' kuznyechik-xts-plain64 '
+				elif crypt == 'camellia-serpent':
+					EN1 = ' camellia-xts-plain64 '
+					EN2 = ' serpent-xts-plain64 '
+				elif crypt == 'kuznyechik-aes':
+					EN1 = ' kuznyechik-xts-plain64 '
+					EN2 = ' aes-xts-plain64 '
+				elif crypt == 'kuznyechik-twofish':
+					EN1 = ' kuznyechik-xts-plain64 '
+					EN2 = ' twofish-xts-plain64 '
 				elif crypt == 'serpent-aes':
 					EN1 = ' serpent-xts-plain64 '
 					EN2 = ' aes-xts-plain64 '
 				elif crypt == 'twofish-serpent':
 					EN1 = ' twofish-xts-plain64 '
-					EN2 = ' serpent-xts-plain64 '
-				elif crypt == 'camellia-serpent':
-					EN1 = ' camellia-xts-plain64 '
 					EN2 = ' serpent-xts-plain64 '
 				table1 = '"0 ' + str(evsize) + ' crypt' + EN1 + MK1 + ' 256 ' + loopdev + ' 256"'
 				table2 = '"0 ' + str(evsize) + ' crypt' + EN2 + MK2 + ' 256 ' + dmslot + '_1 0"'
@@ -406,7 +424,7 @@ def main():
 						rmdmcmd2 = 'dmsetup remove ' + dmname + '_1'
 						subprocess.call(rmdmcmd1, shell=True)
 						subprocess.call(rmdmcmd2, shell=True)
-						if crypt == 'camellia-serpent':
+						if crypt == 'twofish-serpent':
 							if not isBLKDEV:
 								subprocess.call(['losetup', '-d', loopdev])
 							print('No volume decrypted in ' + args.FILE + '.  Is masterkey correct?')
@@ -420,7 +438,7 @@ def main():
 		MK1 = args.MASTERKEY[256:]
 		MK2 = args.MASTERKEY[128:256]
 		MK3 = args.MASTERKEY[:128]
-		crypts = ['aes-twofish-serpent', 'serpent-twofish-aes']
+		crypts = ['aes-twofish-serpent', 'kuznyechik-serpent-camellia', 'serpent-twofish-aes']
 		tryhiddenvol = False
 ##		first check for normal/outer volume
 		for crypt in crypts:
@@ -428,6 +446,10 @@ def main():
 				EN1 = ' aes-xts-plain64 '
 				EN2 = ' twofish-xts-plain64 '
 				EN3 = ' serpent-xts-plain64 '
+			elif crypt == 'kuznyechik-serpent-camellia':
+				EN1 = ' kuznyechik-xts-plain64 '
+				EN2 = ' serpent-xts-plain64 '
+				EN3 = ' camellia-xts-plain64 '
 			elif crypt == 'serpent-twofish-aes':
 				EN1 = ' serpent-xts-plain64 '
 				EN2 = ' twofish-xts-plain64 '
@@ -481,6 +503,10 @@ def main():
 					EN1 = ' aes-xts-plain64 '
 					EN2 = ' twofish-xts-plain64 '
 					EN3 = ' serpent-xts-plain64 '
+				elif crypt == 'kuznyechik-serpent-camellia':
+					EN1 = ' kuznyechik-xts-plain64 '
+					EN2 = ' serpent-xts-plain64 '
+					EN3 = ' camellia-xts-plain64 '
 				elif crypt == 'serpent-twofish-aes':
 					EN1 = ' serpent-xts-plain64 '
 					EN2 = ' twofish-xts-plain64 '
