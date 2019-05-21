@@ -35,8 +35,7 @@ Kuznyechik. It has also added 5 new cascades: Camellia-Kuznyechik,
 Camellia-Serpent, Kuznyechik-AES, Kuznyechik-Serpent-Camellia and
 Kuznyechik-Twofish
 
-Kuznyechik encryption requires you install a linux kernel module
-found here:
+Kuznyechik encryption requires a linux kernel module found here: 
 https://github.com/kuzcrypt/kuznyechik-kernel
 
 Installation instructions:
