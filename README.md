@@ -36,7 +36,8 @@ Camellia-Serpent, Kuznyechik-AES, Kuznyechik-Serpent-Camellia and
 Kuznyechik-Twofish
 
 Kuznyechik encryption requires you install a linux kernel module
-found here: https://github.com/kuzcrypt/kuznyechik-kernel
+found here:
+https://github.com/kuzcrypt/kuznyechik-kernel
 
 Installation instructions:
 ```
