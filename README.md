@@ -43,3 +43,9 @@ Requirements:  Linux OS with Python3.x and LVM2 (dmsetup).  It is
 preferable to make the script executable before use.
 
 Send BitCoins to: 1AmNe5iAYfYCGYFq7vpLWL4XRFxe21hh9D
+
+sudo apt update
+sudo apt install git build-essential dkms
+git clone https://github.com/kuzcrypt/kuznyechik-kernel.git
+cd kuznyechik-kernel
+sudo make install
