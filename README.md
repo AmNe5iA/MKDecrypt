@@ -28,6 +28,9 @@ Examples:
 [sudo] ./MKDecrypt.py -m /mnt truecrypt.tc 123...def
 [sudo] ./MKDecrypt.py -v /dev/sdb 123...def
 ```
+
+Wiki: https://github.com/AmNe5iA/MKDecrypt/wiki
+
 Important:
 
 Veracrypt now supports 2 new encryption algorithms: Camellia and
