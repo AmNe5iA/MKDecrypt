@@ -15,7 +15,7 @@ positional arguments:
 +  MASTERKEY             the MASTERKEY as a hexadecimal string or file (-X)
 
 optional arguments:
- + -h, --help            show this help message and exit
+ + -h, --help            show the help message and exits
  + -v, --verbose         verbose output
  + -X, --volatility      specifies MASTERKEY is a volatility file instead of hex chars
  + -r, --read-only       opens FILE in read only mode (default)
