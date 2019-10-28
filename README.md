@@ -50,9 +50,11 @@ cd kuznyechik-kernel
 sudo make install
 ```
 
-To install on Windows 10 WSL2:
+If you can't/don't want to install the custom kernel module and
+don't mind not accessing volumes encrypted with the Kuznyechik
+algorithm then use the prvious version of MKDecrypt:
 
-https://github.com/AmNe5iA/MKDecrypt/wiki/Installing-the-Kuznyechik-kernel-module-on-Windows-Subsystem-for-Linux-version-2-(WSL2)
+https://github.com/AmNe5iA/MKDecrypt/releases/tag/v1.0.6
 
 Other requirements:  Linux OS with Python3.x and LVM2 (dmsetup).
 It is preferable to make the script executable before use.
