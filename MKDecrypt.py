@@ -160,7 +160,15 @@ def main():
 			dmsetupcmd = 'dmsetup create ' + dmname + ' ' + ro + ' --table ' + table
 			subprocess.call(dmsetupcmd, shell=True)
 ##			test that the volume has decrypted correctly by reading (part of) the OEM from VBR
-			test = open(dmslot, 'rb')
+			try:
+				test = open(dmslot, 'rb')
+##			in case dmslot not found error
+			except IOError:
+				print("io error! decrypt failed! try another one")
+				if crypt == ' kuznyechik-xts-plain64 ':
+##					if all encryption types have been tried then try hidden volumes
+					tryhiddenvol = True
+				continue
 			test.seek(3)
 			OEM = test.read(5)
 			test.seek(1024)
